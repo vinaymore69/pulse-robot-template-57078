@@ -1,7 +1,9 @@
 
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -62,7 +64,7 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex items-center space-x-8">
           <a 
             href="#" 
             className="nav-link"
@@ -75,6 +77,12 @@ const Navbar = () => {
           </a>
           <a href="#features" className="nav-link">About</a>
           <a href="#details" className="nav-link">Contact</a>
+          <Link to="/login">
+            <Button variant="ghost" size="sm">Login</Button>
+          </Link>
+          <Link to="/signup">
+            <Button size="sm">Sign Up</Button>
+          </Link>
         </nav>
 
         {/* Mobile menu button - increased touch target */}
@@ -125,6 +133,20 @@ const Navbar = () => {
           >
             Contact
           </a>
+          <div className="flex flex-col space-y-4 w-full mt-4">
+            <Link to="/login" onClick={() => {
+              setIsMenuOpen(false);
+              document.body.style.overflow = '';
+            }}>
+              <Button variant="ghost" className="w-full">Login</Button>
+            </Link>
+            <Link to="/signup" onClick={() => {
+              setIsMenuOpen(false);
+              document.body.style.overflow = '';
+            }}>
+              <Button className="w-full">Sign Up</Button>
+            </Link>
+          </div>
         </nav>
       </div>
     </header>
