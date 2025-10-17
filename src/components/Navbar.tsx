@@ -65,18 +65,12 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <a 
-            href="#" 
-            className="nav-link"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToTop();
-            }}
-          >
+          <Link to="/" className="nav-link">
             Home
-          </a>
-          <a href="#features" className="nav-link">About</a>
-          <a href="#details" className="nav-link">Contact</a>
+          </Link>
+          <Link to="/about" className="nav-link">About</Link>
+          <Link to="/contact" className="nav-link">Contact</Link>
+          <Link to="/chat" className="nav-link">AI Chat</Link>
           <Link to="/login">
             <Button variant="ghost" size="sm">Login</Button>
           </Link>
@@ -101,20 +95,18 @@ const Navbar = () => {
         isMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
       )}>
         <nav className="flex flex-col space-y-8 items-center mt-8">
-          <a 
-            href="#" 
+          <Link 
+            to="/" 
             className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToTop();
+            onClick={() => {
               setIsMenuOpen(false);
               document.body.style.overflow = '';
             }}
           >
             Home
-          </a>
-          <a 
-            href="#features" 
+          </Link>
+          <Link 
+            to="/about" 
             className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
             onClick={() => {
               setIsMenuOpen(false);
@@ -122,9 +114,9 @@ const Navbar = () => {
             }}
           >
             About
-          </a>
-          <a 
-            href="#details" 
+          </Link>
+          <Link 
+            to="/contact" 
             className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
             onClick={() => {
               setIsMenuOpen(false);
@@ -132,7 +124,17 @@ const Navbar = () => {
             }}
           >
             Contact
-          </a>
+          </Link>
+          <Link 
+            to="/chat" 
+            className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
+            onClick={() => {
+              setIsMenuOpen(false);
+              document.body.style.overflow = '';
+            }}
+          >
+            AI Chat
+          </Link>
           <div className="flex flex-col space-y-4 w-full mt-4">
             <Link to="/login" onClick={() => {
               setIsMenuOpen(false);
