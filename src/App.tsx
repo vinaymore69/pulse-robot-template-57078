@@ -11,6 +11,8 @@ import Contact from "./pages/Contact";
 import Chat from "./pages/Chat";
 import Gallery from "./pages/Gallery";
 import EmailPage from "./pages/EmailPage";
+import AdminDashboard from "./components/AdminDashboard";
+import DataDisplay from "./components/DataDisplay";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +32,8 @@ const App = () => (
           <Route path="/chat" element={<Chat />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/email" element={<EmailPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/display" element={<DataDisplay />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -38,4 +42,4 @@ const App = () => (
   </QueryClientProvider>
 );
 
-export default App;
+export default App; 

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -24,6 +23,11 @@ const Navbar = () => {
     document.body.style.overflow = !isMenuOpen ? 'hidden' : '';
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    document.body.style.overflow = '';
+  };
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -32,8 +36,7 @@ const Navbar = () => {
     
     // Close mobile menu if open
     if (isMenuOpen) {
-      setIsMenuOpen(false);
-      document.body.style.overflow = '';
+      closeMenu();
     }
   };
 
@@ -64,15 +67,21 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
           <Link to="/" className="nav-link">
             Home
           </Link>
           <Link to="/about" className="nav-link">About</Link>
           <Link to="/contact" className="nav-link">Contact</Link>
           <Link to="/chat" className="nav-link">AI Chat</Link>
-          <Link to="/Gallery" className="nav-link">Gallery</Link>
-          <Link to="/Email" className="nav-link">Email</Link>
+          <Link to="/gallery" className="nav-link">Gallery</Link>
+          <Link to="/email" className="nav-link">Email</Link>
+          <Link to="/admin" className="nav-link text-primary font-semibold">
+            Admin
+          </Link>
+          <Link to="/display" className="nav-link text-primary font-semibold">
+            Display
+          </Link>
           <Link to="/login">
             <Button variant="ghost" size="sm">Login</Button>
           </Link>
@@ -93,61 +102,71 @@ const Navbar = () => {
 
       {/* Mobile Navigation - improved for better touch experience */}
       <div className={cn(
-        "fixed inset-0 z-40 bg-white flex flex-col pt-16 px-6 md:hidden transition-all duration-300 ease-in-out",
+        "fixed inset-0 z-40 bg-white flex flex-col pt-16 px-6 md:hidden transition-all duration-300 ease-in-out overflow-y-auto",
         isMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
       )}>
-        <nav className="flex flex-col space-y-8 items-center mt-8">
+        <nav className="flex flex-col space-y-6 items-center mt-8 pb-8">
           <Link 
             to="/" 
             className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
-            onClick={() => {
-              setIsMenuOpen(false);
-              document.body.style.overflow = '';
-            }}
+            onClick={closeMenu}
           >
             Home
           </Link>
           <Link 
             to="/about" 
             className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
-            onClick={() => {
-              setIsMenuOpen(false);
-              document.body.style.overflow = '';
-            }}
+            onClick={closeMenu}
           >
             About
           </Link>
           <Link 
             to="/contact" 
             className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
-            onClick={() => {
-              setIsMenuOpen(false);
-              document.body.style.overflow = '';
-            }}
+            onClick={closeMenu}
           >
             Contact
           </Link>
           <Link 
             to="/chat" 
             className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
-            onClick={() => {
-              setIsMenuOpen(false);
-              document.body.style.overflow = '';
-            }}
+            onClick={closeMenu}
           >
             AI Chat
           </Link>
+          <Link 
+            to="/gallery" 
+            className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
+            onClick={closeMenu}
+          >
+            Gallery
+          </Link>
+          <Link 
+            to="/email" 
+            className="text-xl font-medium py-3 px-6 w-full text-center rounded-lg hover:bg-gray-100" 
+            onClick={closeMenu}
+          >
+            Email
+          </Link>
+          <Link 
+            to="/admin" 
+            className="text-xl font-bold py-3 px-6 w-full text-center rounded-lg hover:bg-primary/10 text-primary" 
+            onClick={closeMenu}
+          >
+            🎯 Admin Dashboard
+          </Link>
+          <Link 
+            to="/display" 
+            className="text-xl font-bold py-3 px-6 w-full text-center rounded-lg hover:bg-primary/10 text-primary" 
+            onClick={closeMenu}
+          >
+            📊 Data Display
+          </Link>
           <div className="flex flex-col space-y-4 w-full mt-4">
-            <Link to="/login" onClick={() => {
-              setIsMenuOpen(false);
-              document.body.style.overflow = '';
-            }}>
+            <Link to="/login" onClick={closeMenu}>
               <Button variant="ghost" className="w-full">Login</Button>
             </Link>
-            <Link to="/signup" onClick={() => {
-              setIsMenuOpen(false);
-              document.body.style.overflow = '';
-            }}>
+            <Link to="/signup" onClick={closeMenu}>
               <Button className="w-full">Sign Up</Button>
             </Link>
           </div>
