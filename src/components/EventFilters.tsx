@@ -1,105 +1,91 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Calendar, Sparkles } from "lucide-react";
+import { Calendar, Sparkles, ChevronDown } from "lucide-react";
 
 const EventFilters = ({ selectedCategory, setSelectedCategory, selectedYear, setSelectedYear }) => {
   const [years] = useState([2025, 2024, 2023, 2022, 2021]);
+  const [isOpen, setIsOpen] = useState(false);
   const sectionRef = useRef(null);
   
   const categories = [
-    { id: 'all', name: 'All Events', icon: '🎯' },
-    { id: 'cultural', name: 'Cultural', icon: '🎭' },
-    { id: 'technical', name: 'Technical', icon: '⚙️' },
-    { id: 'sports', name: 'Sports', icon: '⚽' }
+    { id: 'all', name: 'All Events', icon: '🎯', color: 'bg-gray-500' },
+    { id: 'cultural', name: 'Cultural', icon: '🎭', color: 'bg-purple-500' },
+    { id: 'technical', name: 'Technical', icon: '⚙️', color: 'bg-blue-500' },
+    { id: 'sports', name: 'Sports', icon: '⚽', color: 'bg-green-500' }
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-    
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+  const selectedCategoryData = categories.find(c => c.id === selectedCategory);
 
   return (
-    <section ref={sectionRef} className="w-full py-8 sm:py-12 bg-gray-50 sticky top-0 z-40 backdrop-blur-lg bg-gray-50/95" id="filters">
+    <section 
+      ref={sectionRef} 
+      className="w-full py-4 bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-gray-200 shadow-sm" 
+      id="filters"
+    >
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        {/* Header with badge and line */}
-        <div className="flex items-center gap-4 mb-6 sm:mb-8">
-          <div className="pulse-chip">
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-pulse-500 text-white mr-2">02</span>
-            <span>Filters</span>
-          </div>
-          <div className="flex-1 h-[1px] bg-gray-300"></div>
-        </div>
-
-        {/* Filters Container */}
-        <div className="space-y-6">
-          {/* Category Filters */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="w-5 h-5 text-pulse-500" />
-              <h3 className="text-lg font-display font-semibold">Event Type</h3>
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+          
+          {/* Left: Pulse Chip & Title */}
+          <div className="flex items-center gap-4">
+            <div className="pulse-chip">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-pulse-500 text-white mr-2">02</span>
+              <span>Filters</span>
             </div>
-            <div className="flex flex-wrap gap-3">
-              {categories.map((category, index) => (
+            <div className="hidden md:block h-6 w-px bg-gray-300"></div>
+            <h3 className="hidden md:block text-sm font-medium text-gray-600">
+              {selectedCategoryData?.name} • {selectedYear}
+            </h3>
+          </div>
+
+          {/* Right: Filter Controls */}
+          <div className="flex items-center gap-3 w-full lg:w-auto">
+            
+            {/* Category Dropdown */}
+            <div className="relative flex-1 lg:flex-initial">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full lg:w-48 appearance-none px-4 py-2.5 pr-10 rounded-full border-2 border-gray-200 bg-white hover:border-pulse-300 focus:border-pulse-500 focus:outline-none transition-all duration-300 font-medium text-sm cursor-pointer"
+              >
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.icon} {category.name}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            </div>
+
+            {/* Year Dropdown */}
+            <div className="relative flex-1 lg:flex-initial">
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="w-full lg:w-32 appearance-none px-4 py-2.5 pr-10 rounded-full border-2 border-gray-200 bg-white hover:border-pulse-300 focus:border-pulse-500 focus:outline-none transition-all duration-300 font-medium text-sm cursor-pointer"
+              >
+                {years.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            </div>
+
+            {/* Quick Filter Badges - Desktop Only */}
+            <div className="hidden xl:flex items-center gap-2">
+              {categories.slice(1).map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
                   className={`
-                    px-6 py-3 rounded-full font-medium transition-all duration-300 
+                    px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300
                     ${selectedCategory === category.id 
-                      ? 'bg-pulse-500 text-white shadow-lg scale-105' 
-                      : 'bg-white text-gray-700 hover:bg-pulse-50 border border-gray-200'
+                      ? `${category.color} text-white shadow-lg scale-105` 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }
-                    opacity-0 animate-fade-in
                   `}
-                  style={{ animationDelay: `${0.1 * index}s` }}
                 >
-                  <span className="mr-2">{category.icon}</span>
-                  {category.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Year Filter */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Calendar className="w-5 h-5 text-pulse-500" />
-              <h3 className="text-lg font-display font-semibold">Year</h3>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {years.map((year, index) => (
-                <button
-                  key={year}
-                  onClick={() => setSelectedYear(year)}
-                  className={`
-                    px-6 py-3 rounded-full font-medium transition-all duration-300
-                    ${selectedYear === year 
-                      ? 'bg-pulse-500 text-white shadow-lg scale-105' 
-                      : 'bg-white text-gray-700 hover:bg-pulse-50 border border-gray-200'
-                    }
-                    opacity-0 animate-fade-in
-                  `}
-                  style={{ animationDelay: `${0.1 * index}s` }}
-                >
-                  {year}
+                  {category.icon}
                 </button>
               ))}
             </div>
