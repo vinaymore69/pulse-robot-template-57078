@@ -71,6 +71,8 @@ const Navbar = () => {
           <Link to="/about" className="nav-link">About</Link>
           <Link to="/contact" className="nav-link">Contact</Link>
           <Link to="/chat" className="nav-link">AI Chat</Link>
+          <Link to="/Gallery" className="nav-link">Gallery</Link>
+          <Link to="/Email" className="nav-link">Email</Link>
           <Link to="/login">
             <Button variant="ghost" size="sm">Login</Button>
           </Link>
